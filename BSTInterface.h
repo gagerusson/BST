@@ -17,5 +17,5 @@ public:
 
     virtual bool contains(T data) = 0;
 
-    virtual void clear() = 0;
+    virtual void clear(Node<T>*) = 0;
 };

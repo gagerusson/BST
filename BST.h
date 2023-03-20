@@ -104,5 +104,13 @@ public:
         return false;
     }
 
+    void clear(Node*& node) {
+        if (node == nullptr) {
+            return;
+        }
+        clear(node->left);
+        clear(node->right);
+        delete node;
+    }
 
 };

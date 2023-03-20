@@ -3,4 +3,6 @@ project(BST)
 
 set(CMAKE_CXX_STANDARD 17)
 
-add_executable(main.cpp BST.h BSTInterface.h BSTInterface.h scratch.cpp Node.h test.cpp)
+add_executable(scratch scratch.cpp)
+
+add_executable(test test.cpp)

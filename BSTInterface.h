@@ -4,18 +4,18 @@
 
 #include "Node.h"
 
-template<class T>
+//template<class T>
 class BSTInterface {
 public:
     virtual ~BSTInterface() = default;
 
-    virtual Node<T>* *getRootNode() const = 0;
+    virtual Node* getRootNode() const = 0;
 
-    virtual bool insert(T data) = 0;
+    virtual bool insert(int data) = 0;
 
-    virtual bool remove(T data) = 0;
+    virtual bool remove(int data) = 0;
 
-    virtual bool contains(T data) = 0;
+    virtual bool contains(int data) = 0;
 
-    virtual void clear(Node<T>*) = 0;
+    virtual void clear() = 0;
 };

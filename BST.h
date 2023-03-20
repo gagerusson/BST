@@ -5,21 +5,21 @@
 
 using namespace std;
 
-template<class T>
-class BST {
+//template<class T>
+class BST : public BSTInterface {
 private:
-    typedef Node<T> Node;
-    int tree_size;
+    //typedef Node<T> Node;
+    int size;
     Node* root;
 
-    bool _contains(Node*& node, T item) {
+    bool _contains(Node*& node, int item) {
         if (node == nullptr) {
             return false;
         }
-        if (node->value == item) {
+        if (node->data == item) {
             return true;
         }
-        if (node->value > item) {
+        if (node->data > item) {
             return _contains(node->left, item);
         }
         else {
@@ -27,15 +27,15 @@ private:
         }
     }
 
-    bool _insert(Node*& node, T item){
+    bool _insert(Node*& node, int item){
         if (node == nullptr) {
             node = new Node(item);
             return true;
         }
-        if (item == node->value) {
+        if (item == node->data) {
             return false;
         }
-        if (item < node->value) {
+        if (item < node->data) {
             return _insert(node->left, item);
         }
         else {
@@ -43,74 +43,96 @@ private:
         }
     }
 
-    Node getInorderPredecessor(Node*& node) {
-        Node iop = node->left;
+    Node* getInorderPredecessor(Node*& node) {
+        Node* iop = node->left;
         while (iop->right != nullptr) {
             iop = iop->right;
         }
         return iop;
     }
 
-    bool _remove(Node*& node, T item) {
+    bool _remove(Node*& node, int item) {
         if (node == nullptr) {
             return false;
         }
-        if (item == node->value) {
-            if (node->left == nullptr && node->right != nullptr) {
-                node = node->right;
+        if (item == node->data) {
+            if (node->left == nullptr && node->right == nullptr) {
+                delete node;
+                node = nullptr;
+            }
+            else if (node->left == nullptr && node->right != nullptr) {
+                Node* tmp = node->right;
+                delete node;
+                node = tmp;
             }
             else if (node->right == nullptr && node->left != nullptr) {
-                node = node->left;
+                Node* tmp = node->left;
+                delete node;
+                node = tmp;
             }
             else {
-                Node iop = getInorderPredecessor(node);
-                node->value = iop->value;
-                _remove(node->left, iop->value);
+                Node* iop = getInorderPredecessor(node);
+                node->data = iop->data;
+                _remove(node->left, iop->data);
             }
             return true;
         }
-        else if (item < node->value) {
+        else if (item < node->data) {
             return _remove(node->left, item);
         }
         else {
             return _remove(node->right, item);
         }
     }
-public:
-    Node getRootNode() {
-        return root;
-    }
 
-    bool insert(T item) {
-        if (_insert(this->getRootNode(), item)) {
-            tree_size++;
-            return true;
-        }
-        return false;
-    }
-
-    bool contains(T item) {
-        if (_contains(this->getRootNode(), item)) {
-            return true;
-        }
-        return false;
-    }
-
-    bool remove(T item) {
-        if (_remove(root, item)) {
-            tree_size--;
-            return true;
-        }
-        return false;
-    }
-
-    void clear(Node*& node) {
+    void _clear(Node*& node) {
         if (node == nullptr) {
             return;
         }
-        clear(node->left);
-        clear(node->right);
+        _clear(node->left);
+        _clear(node->right);
         delete node;
+        node = nullptr;
+    }
+
+public:
+    BST() {
+        root = nullptr;
+        size = 0;
+    }
+    ~BST() {
+        clear();
+    }
+
+    Node* getRootNode() const {
+        return root;
+    }
+
+    bool insert(int item) {
+        if (_insert(root, item)) {
+            size++;
+            return true;
+        }
+        return false;
+    }
+
+    bool contains(int item) {
+        if (_contains(root, item)) {
+            return true;
+        }
+        return false;
+    }
+
+    bool remove(int item) {
+        if (_remove(root, item)) {
+            size--;
+            return true;
+        }
+        return false;
+    }
+
+    void clear() {
+        _clear(root);
     }
 
 };

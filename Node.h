@@ -1,11 +1,11 @@
 #pragma once
 
-template<class T>
+//template<class T>
 struct Node {
-    T value;
+    int data;
     Node* left;
     Node* right;
-    Node(T item) : value(item), left(nullptr), right(nullptr) {}
+    Node(int item) : data(item), left(nullptr), right(nullptr) {}
 };
 
 

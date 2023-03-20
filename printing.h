@@ -14,7 +14,6 @@
 // them unless you want to read them for fun!
 
 // --------------------   HELPER FUNCTIONS   --------------------
-
 void ugly_print_tree_helper(const Node* node) {
     if (node == nullptr) {
         return;
